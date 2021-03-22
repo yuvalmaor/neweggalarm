@@ -1,6 +1,7 @@
 import sys
 import random
 from selenium import webdriver
+import selenium
 from webdriver_manager.chrome import ChromeDriverManager
 import requests
 import os
@@ -11,16 +12,21 @@ from datetime import datetime
 
 
 def main():
-    items=73#change to amount of items in page if dont work
+    items=66#change to amount of items in page if dont work
     a=0
     v=items
     vt=items
     while(v==vt and v==items):
-        time.sleep( random.randint(30, 46))
+        time.sleep( random.randint(50, 55))
+        link="https://www.newegg.com/global/il-en/p/pl?N=101613484%20600358543%20600494828%20601357261%20601294831%20600499109%20601110192%20601326002%208000%20601357247%20601359415%20601303641%20601303642%20600029797%20601357250%20601359427%20601341487&Order=1&PageSize=96"
+        #link="https://www.newegg.com/p/pl?N=101613484%20600358543%20600494828%20601357261%20601294831%20600499109%20601110192%20601326002%208000%20601357247%20601359415%20601303641%20601303642%20600029797%20601357250%20601362404%20601359427%20601341487&Order=1&PageSize=96"
+        #link="https://www.newegg.com/global/il-en/p/pl?N=101613484%20600358543%20600494828%20601357261%20601294831%20600499109%20601110192%20601326002%208000%20601357247%20601359415%20601303641%20601303642%20600029797%20601359427%20601341679%20601357250%20601361654&Order=1&PageSize=96"
+        #link="https://www.newegg.com/global/il-en/p/pl?N=101613499%20601359163"
+        #link="https://www.newegg.com/global/il-en/p/pl?N=101613484%20600358543%20600494828%20601357261%20601294831%20600499109%20601110192%20601326002%208000%20601357247%20601359415%20601303641%20601303642%20600029797%20601359427%20601341679%20601357250&Order=1&PageSize=96"
         #link="https://www.newegg.com/global/il-en/p/pl?N=101613484%208000%20601321572%20601341679%20601359427%20601303641%20601303642%20601183677%20601361654%20601359415%20601357250%20601357247&Order=3&PageSize=96"
         #link="https://www.newegg.com/global/il-en/p/pl?N=101613499%20601359163&d=CPU&isdeptsrh=1"
-        link="https://www.newegg.com/global/il-en/p/pl?N=101613484%208000%20601321572%20601341679%20601359427%20601303641%20601303642%20601183677%20601359415%20601357250%20601357247&Order=3&PageSize=96"
-
+        #link="https://www.newegg.com/global/il-en/p/pl?N=101613484%208000%20601321572%20601341679%20601359427%20601303641%20601303642%20601183677%20601359415%20601357250%20601357247&Order=3&PageSize=96"
+        #link="https://www.newegg.com/global/il-en/p/pl?N=101613484%20600358543%20600494828%20601357261%20601294831%20600499109%20601110192%20601326002%208000%20601357247%20601359415%20601303641%20601303642%20600029797&Order=1"
         r = requests.get(link)
         a=r.text
         d=a.find("item-cells-wrap border-cells items-grid-view four-cells expulsion-one-cell")
@@ -48,7 +54,7 @@ def main():
         
         #print(a)
         #os.system('cls')
-    openbrowser(s[0])
+    openbrowser(s[0],link)
 
 def func(a):
     ret = re.findall(r"href=\"[^\"\>]*\"", a)
@@ -94,17 +100,33 @@ def stock(a):
     print("num of links is:"+str(c))
     return ret
 
-def openbrowser(a):
+def openbrowser(a,link):
     print(a[6:-1])
     print("")
 
     #a='https://www.newegg.com/global/il-en/p/pl?N=101613484%208000%20601321572%20601341679%20601359427%20601303641%20601303642%20601183677%20601361654%20601359415%20601357250%20601357247&Order=3&PageSize=96'
-    b='https://www.newegg.com/global/il-en/p/pl?N=101613484%208000%20601321572%20601341679%20601359427%20601303641%20601303642%20601183677%20601361654%20601359415%20601357250%20601357247&Order=3&PageSize=96'
+    #b='https://www.newegg.com/global/il-en/p/pl?N=101613484%208000%20601321572%20601341679%20601359427%20601303641%20601303642%20601183677%20601361654%20601359415%20601357250%20601357247&Order=3&PageSize=96'
     browser  = webdriver.Chrome(ChromeDriverManager().install())
-    browser.get(b)
+    #browser.get(b)#run
     browsera  = webdriver.Chrome(ChromeDriverManager().install())
     browsera.get(a[6:-1])
+    time.sleep(8)
+    #element = browsera.find_element_by_css_selector('button.btn btn-primary btn-wide')
+    element = browsera.find_elements_by_css_selector('button.btn.btn-primary.btn-wide')
+    #element = browsera.
+    #find_element_by_class("btn btn-primary btn-wide")Add to cart 
+    #class="btn btn-primary btn-wide"
+    browser.get(link)
+    try:
+        element[0].click()
+    except:
+
+        browser.get(link)
+    browser.get(link)
+    print(len(element))
+    #element[0].submit()
     print(a[6:-1])
+
     while(1):
         i=0
 main()
